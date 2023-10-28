@@ -3,22 +3,14 @@ import { Formik } from "formik";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { basicDetailsSchema } from "./validationSchema.tsx";
+import InputField from "./InputField.tsx";
 
 const MainForm = () => {
   return (
     <div>
 <Formik
        initialValues={{ firstName: '', lastName: '' }}
-       validate={values => {
-         const errors = {};
-         if (!values.firstName) {
-           errors.firstName = 'Required';
-         }  
-         if(!values.lastName){
-           errors.lastName = 'Required';
-         }
-         return errors;
-       }}
+       validationSchema={basicDetailsSchema}
        onSubmit={(values, { setSubmitting }) => {
          setTimeout(() => {
            alert(JSON.stringify(values, null, 2));
@@ -34,28 +26,21 @@ const MainForm = () => {
          handleBlur,
          handleSubmit,
          isSubmitting,
-         /* and other goodies */
        }) => (
          <form onSubmit={handleSubmit}>
-           <input
-             type="firstName"
+           <InputField
              name="firstName"
-             onChange={handleChange}
-             onBlur={handleBlur}
-             value={values.firstName}
+             label="first name"
            />
-           {errors.firstName && touched.firstName && errors.firstName}
-           <input
-             type="lastName"
+           
+           <InputField
              name="lastName"
-             onChange={handleChange}
-             onBlur={handleBlur}
-             value={values.lastName}
+             label="last name"
            />
-           {errors.lastName && touched.lastName && errors.lastName}
-           <button type="submit" disabled={isSubmitting}>
+           
+           <Button type="submit" disabled={isSubmitting}>
              Submit
-           </button>
+           </Button>
          </form>
        )}
      </Formik>
